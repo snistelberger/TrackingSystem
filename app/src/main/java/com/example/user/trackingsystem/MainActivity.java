@@ -16,12 +16,20 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
     private static LocationManager locMan = null;
+    TextView tv_latitude;
+    TextView tv_longitude;
+    TextView tv_altitude;
+    TextView tv_date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         locMan = (LocationManager) getSystemService(LOCATION_SERVICE);
+        tv_latitude = (TextView) findViewById(R.id.tv_latitude);
+        tv_longitude = (TextView) findViewById(R.id.tv_longitude);
+        tv_altitude = (TextView) findViewById(R.id.tv_altitude);
+        tv_date = (TextView) findViewById(R.id.tv_date);
     }
 
     @Override
@@ -38,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, this);
+        locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER, 20000, 5, this);
     }
 
     @Override
@@ -72,10 +80,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
         double altitude = location.getAltitude();
-        TextView tv_latitude = (TextView) findViewById(R.id.tv_latitude);
-        TextView tv_longitude = (TextView) findViewById(R.id.tv_longitude);
-        TextView tv_altitude = (TextView) findViewById(R.id.tv_altitude);
-        TextView tv_date = (TextView) findViewById(R.id.tv_date);
+
         tv_longitude.setText(String.format("%.4f", longitude));
         tv_latitude.setText(String.format("%.4f", latitude));
         tv_altitude.setText(String.format("%.4f", altitude));
