@@ -1,13 +1,17 @@
 package com.example.user.trackingsystem;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -20,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     TextView tv_longitude;
     TextView tv_altitude;
     TextView tv_date;
+    Button bttn_anzeigen;
+    private static int counter = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +36,17 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         tv_longitude = (TextView) findViewById(R.id.tv_longitude);
         tv_altitude = (TextView) findViewById(R.id.tv_altitude);
         tv_date = (TextView) findViewById(R.id.tv_date);
+    }
+
+
+
+    public void onItemClicked(View view) {
+        //Intent intent = new Intent();
+        //startActivity(intent);
+        DBHelper dbHelper = new DBHelper(this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        db.execSQL(GPSTbl.STMT_INSERT, new String [] {"" + counter, "" + tv_longitude.getText(), "" + tv_latitude.getText(), "" + tv_altitude.getText(), "" + tv_date.getText()});
+        counter += 1;
     }
 
     @Override
